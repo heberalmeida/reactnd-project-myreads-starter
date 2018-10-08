@@ -38,9 +38,9 @@ class Book extends Component {
 
 Book.propTypes = {
     handler: propTypes.func.isRequired,
-    shelf: propTypes.string.isRequired,
+    shelf: propTypes.string,
     'imageLinks.thumbnail': propTypes.string,
-    authors: propTypes.array.isRequired
+    authors: propTypes.array
 }
 
 export default Book
