@@ -1,43 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { getAll, update } from '../BooksAPI'
 import Header from '../common/template/Header'
 import Shelf from '../components/Shelf'
 
 export default class Home extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            books: []
-        }
-    }
-
-    componentDidMount() {
-        getAll().then(books => {
-            console.log(books)
-            this.setState({ books })
-        })
+    handler = (book, event) => {
+        this.props.handler(book, event)
     }
 
     filterBooksByShelf(shelf) {
-        return this.state.books.filter((book) => book.shelf === shelf)
-    }
-
-    updateHandler(book, shelf) {
-        this.updateBook(book, shelf)
-        update(book, shelf).then(() => console.log('Book update done'))
-    }
-
-    updateBook(book, shelf) {
-        let books = this.state.books
-        books.forEach((oldBook, ind) => {
-            if (oldBook.id === book.id) {
-                books[ind].shelf = shelf
-            }
-        })
-        this.setState({ books })
+        return this.props.books.filter(book => book.shelf === shelf)
     }
 
     render() {
@@ -48,13 +21,13 @@ export default class Home extends Component {
                     <div>
                         <Shelf title="Currently Reading"
                             books={this.filterBooksByShelf('currentlyReading')}
-                            handler={this.updateHandler.bind(this)} />
+                            handler={this.handler} />
                         <Shelf title="Want to Read"
                             books={this.filterBooksByShelf('wantToRead')}
-                            handler={this.updateHandler.bind(this)} />
+                            handler={this.handler} />
                         <Shelf title="Read"
                             books={this.filterBooksByShelf('read')}
-                            handler={this.updateHandler.bind(this)} />
+                            handler={this.handler} />
                     </div>
                 </div>
                 <div className="open-search">

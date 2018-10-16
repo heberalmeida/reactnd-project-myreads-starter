@@ -1,46 +1,39 @@
-import React, { Component } from 'react'
-import propTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
-class Book extends Component {
-    handleBookUpdate (event) {
-        const shelf = event.target.value
-        this.props.handler(this.props, shelf)
-    }
-
+class Book extends PureComponent {
     render() {
-        const shelf = this.props.shelf || 'none'
+        const { book, handler } = this.props
         return (
-            <li>
-                <div className="book">
-                    <div className="book-top">
-                        <div className="book-cover" style={{
+            <div className="book">
+                <div className="book-top">
+                    <div className={`book-cover
+                        ${(book.shelf !== 'None') ? book.shelf : ''}`}
+                        style={{
                             width: 128,
-                            height: 188,
-                            backgroundImage: `url("${this.props.imageLinks.thumbnail || ''}")`
-                        }}></div>
-                        <div className="book-shelf-changer">
-                            <select value={shelf} onChange={this.handleBookUpdate.bind(this)}>
-                                <option value="move" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                            </select>
-                        </div>
+                            height: 193,
+                            backgroundImage: (book.imageLinks) ?
+                                `url(${book.imageLinks.thumbnail})` :
+                                `url(https://placeimg.com/128/193/arch/sepia)` }}></div>
+                    <div className="book-shelf-changer">
+                        <select value={book.shelf || 'None'} onChange={(event) => handler(book, event)}>
+                            <option value="move" disabled>Move to...</option>
+                            <option value="currentlyReading">Currently Reading</option>
+                            <option value="wantToRead">Want to Read</option>
+                            <option value="read">Read</option>
+                            <option value="none">None</option>
+                        </select>
                     </div>
-                    <div className="book-title">{this.props.title}</div>
-                    <div className="book-authors">{this.props.authors ? this.props.authors.join(', ') : 'None'}</div>
                 </div>
-            </li>
+                <div className="book-title">{book.title}</div>
+                <div className="book-authors">{book.authors ? book.authors.join(', ') : 'None'}</div>
+            </div>
         )
     }
 }
 
 Book.propTypes = {
-    handler: propTypes.func.isRequired,
-    shelf: propTypes.string,
-    'imageLinks.thumbnail': propTypes.string,
-    authors: propTypes.array
+    handler: PropTypes.func.isRequired
 }
 
 export default Book
