@@ -16,23 +16,13 @@ class BooksApp extends Component {
     }
 
     updateShelf = (book, e) => {
-        let newBooks = this.state.books
-
-        const selectedShelf = e.target.value
-        book.shelf = selectedShelf
-
-        BooksAPI.update(book, selectedShelf).then(() => {
-            newBooks = newBooks.map((b) => b.id === book.id ? (b.shelf = selectedShelf, book) : (b))
-                .filter(book => book.shelf !== 'none')
-
-            if(newBooks.every(b => b.id !== book.id))
-                newBooks.push(book)
-
-            this.setState({
-                books: newBooks
+        const shelf = e.target.value
+        if (book.shelf !== shelf)
+            BooksAPI.update(book, shelf).then(() => {
+                BooksAPI.getAll().then(books => {
+                    this.setState({ books })
+                })
             })
-
-        })
     }
 
     render() {
