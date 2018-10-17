@@ -14,19 +14,20 @@ npm run start
 ## Organization
 
 The project is organized in the following way:
-
-| src
-|---- common
-|---- components
-|---- Home
-|---- icons
-|---- Search
-|---- App.css
-|---- App.js
-|---- App.test.js
-|---- BooksAPI.js
-|---- index.css
-|---- index.js
+```bash
+│──src
+│──common
+│──components
+│──Home
+│──icons
+│──Search
+│──App.css
+│──App.js
+│──App.test.js
+│──BooksAPI.js
+│──index.css
+│──index.js
+```
 
 ## Libs
 react-throttle
